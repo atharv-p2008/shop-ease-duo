@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ShoppingBag, Search, Plus, Minus, Trash2, Pencil, X, AlertTriangle, Package, DollarSign, PackageX } from "lucide-react";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
 import hero from "@/assets/hero.jpg";
 
 export const Route = createFileRoute("/")({
@@ -64,6 +66,7 @@ function Index() {
 
   return (
     <div className="min-h-screen">
+      <Toaster position="top-center" />
       <header className="sticky top-0 z-30 border-b bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
           <h1 className="text-2xl font-bold">Shop<span className="text-primary">Ease</span></h1>
@@ -96,6 +99,7 @@ function Index() {
             setProducts((ps) => ps.map((p) => ({ ...p, stock: p.stock - (syncedCart[p.id] ?? 0) })));
             setCart({});
             setCartOpen(false);
+            toast.success("Order placed! Stock has been updated.");
           }} />
       )}
     </div>
