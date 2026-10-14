@@ -140,7 +140,15 @@ function Storefront({ products, onAdd, cart }: { products: Product[]; onAdd: (id
             const maxed = inCart >= p.stock;
             return (
               <article key={p.id} className="group overflow-hidden rounded-2xl border bg-card transition hover:shadow-lg">
-                <div className="aspect-square overflow-hidden bg-muted">
+                <div className="relative aspect-square overflow-hidden bg-muted">
+                  {p.stock > 0 && p.stock < 5 && (
+                    <span className="absolute left-3 top-3 z-10 flex items-center gap-1 rounded-full bg-warning px-2.5 py-1 text-xs font-bold text-foreground shadow">
+                      <AlertTriangle className="h-3 w-3" /> Low stock
+                    </span>
+                  )}
+                  {out && (
+                    <span className="absolute left-3 top-3 z-10 rounded-full bg-destructive px-2.5 py-1 text-xs font-bold text-destructive-foreground shadow">Sold out</span>
+                  )}
                   <img src={p.image} alt={p.name} loading="lazy" className={`h-full w-full object-cover transition duration-500 group-hover:scale-105 ${out ? "opacity-50 grayscale" : ""}`} />
                 </div>
                 <div className="space-y-2 p-4">
