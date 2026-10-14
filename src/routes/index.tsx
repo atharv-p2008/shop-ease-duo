@@ -135,7 +135,7 @@ function Storefront({ products, onAdd, cart }: { products: Product[]; onAdd: (id
         {list.length === 0 && <p className="py-16 text-center text-muted-foreground">No products match your search.</p>}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {list.map((p) => {
-            const inCart = (cart[p.id] ?? 0) ?? 0;
+            const inCart = cart[p.id] ?? 0;
             const out = p.stock === 0;
             const maxed = inCart >= p.stock;
             return (
