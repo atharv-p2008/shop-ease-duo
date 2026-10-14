@@ -135,7 +135,7 @@ function Storefront({ products, onAdd, cart }: { products: Product[]; onAdd: (id
         {list.length === 0 && <p className="py-16 text-center text-muted-foreground">No products match your search.</p>}
         <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
           {list.map((p) => {
-            const inCart = cart[p.id] ?? 0;
+            const inCart = (cart[p.id] ?? 0) ?? 0;
             const out = p.stock === 0;
             const maxed = inCart >= p.stock;
             return (
@@ -173,8 +173,8 @@ function StockBadge({ stock }: { stock: number }) {
 function CartDrawer({ products, cart, setQty, onClose, onCheckout }: {
   products: Product[]; cart: Record<number, number>; setQty: (id: number, q: number) => void; onClose: () => void; onCheckout: () => void;
 }) {
-  const items = products.filter((p) => cart[p.id]);
-  const total = items.reduce((s, p) => s + p.price * cart[p.id], 0);
+  const items = products.filter((p) => (cart[p.id] ?? 0));
+  const total = items.reduce((s, p) => s + p.price * (cart[p.id] ?? 0), 0);
   return (
     <div className="fixed inset-0 z-50">
       <div className="absolute inset-0 bg-foreground/40" onClick={onClose} />
@@ -195,11 +195,11 @@ function CartDrawer({ products, cart, setQty, onClose, onCheckout }: {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center rounded-full border">
-                    <button onClick={() => setQty(p.id, cart[p.id] - 1)} className="p-1.5" aria-label="Decrease"><Minus className="h-3.5 w-3.5" /></button>
-                    <span className="w-8 text-center text-sm font-semibold">{cart[p.id]}</span>
-                    <button disabled={cart[p.id] >= p.stock} onClick={() => setQty(p.id, cart[p.id] + 1)} className="p-1.5 disabled:opacity-30" aria-label="Increase"><Plus className="h-3.5 w-3.5" /></button>
+                    <button onClick={() => setQty(p.id, (cart[p.id] ?? 0) - 1)} className="p-1.5" aria-label="Decrease"><Minus className="h-3.5 w-3.5" /></button>
+                    <span className="w-8 text-center text-sm font-semibold">{(cart[p.id] ?? 0)}</span>
+                    <button disabled={(cart[p.id] ?? 0) >= p.stock} onClick={() => setQty(p.id, (cart[p.id] ?? 0) + 1)} className="p-1.5 disabled:opacity-30" aria-label="Increase"><Plus className="h-3.5 w-3.5" /></button>
                   </div>
-                  <span className="font-bold">{money(p.price * cart[p.id])}</span>
+                  <span className="font-bold">{money(p.price * (cart[p.id] ?? 0))}</span>
                 </div>
               </div>
             </div>
